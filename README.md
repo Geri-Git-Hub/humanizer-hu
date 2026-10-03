@@ -186,24 +186,9 @@ Ezek a döntések az első mondat előtt születnek, és utólag nem javítható
 | Részletesség | Az első mondat előtt dönts. Általánosítani szabad, kitalálni nem. |
 | Hang | Semleges és szakmai, váltakozó mondathosszal. Az írásminta felülír. |
 
-## Eredet és eltérések
+## Eredet
 
-A 26 minta számozása a [blader/humanizer](https://github.com/blader/humanizer) 3.0.0-s változatát követi, mert onnan indult a lista. A leképezés:
-
-- 1-9 és 12-25: a téma és a számozás azonos, a tartalom magyar. A példák, a kerülendő kifejezések, a nyelvtani indoklás és a kivételek a magyar nyelvhez készültek; a 8. és a 21. minta szabálya a magyar tipográfiához igazodik.
-- 10: az eredeti "kötőjeles szópárok" helyett anglicizmusok és tükörfordítások, mert a kötőjeles szópárnak magyarul nincs értelme.
-- 11: az eredeti "passzív és hiányzó alany", kibővítve a magyar "kerül" és "történik" passzívpótlóval és a láncolt főnevesítéssel.
-- 26: új, csak a magyar verzióban. A tegezés és a magázás keveredése.
-
-Amit a magyar verzió a mintákon felül hoz:
-
-- Csak magyar szöveget kezel. Ha angolt kap, jelzi, és az eredeti humanizert ajánlja.
-- Dokumentumszintű réteg és persona: tapasztalt magyar elemző, aki emberi olvasónak ír dokumentációt.
-- Az angol szakzsargon (agent, sprint, backlog, deploy, ticket, endpoint) marad angolul, zárójeles magyar fordítás nélkül, ha az olvasó fejlesztő vagy szakmai szereplő. Nem technikai olvasónak a magyar szó jár. A tükörfordítás-minta csak a szerkezetet nézi.
-- Gondolatjel: a hosszú `—` sehol nem áll, címsorban sem, és a magányos szóközös `–` sem tagmondatok között. Páros közbevetésként a szóközös `–` ritkán maradhat. Tapadva marad a számintervallumban és a kötőjeles tulajdonnévben, szóközzel a felsorolás elválasztójaként, ahol a kettőspont foglalt.
-- Idézőjel és dátum: egyenes `"..."` áll a szövegben, a magyar `„...”` és az angol `“...”` helyén is, a dátum pedig ISO alakban. Publikálandó szövegben marad a magyar idézőjel és a kiírt magyar dátum.
-
-A 2.0.0 óta a két projekt célja eltér: az eredeti meglévő szöveget ír át, a Humanizer-hu generáláshoz ad szabályokat. Az upstream továbbra is hasznos bemenet egy új mintához, de a fájl szerkezete már nem követi.
+A [blader/humanizer](https://github.com/blader/humanizer) ihlette ezt a skillt.
 
 A 12. minta szójegyzéke megfigyelésen alapul, nem korpuszon. Ez a repo élő része: ha egy szó hiányzik vagy fölösleges, nyiss issue-t. A skill módosításának szabályai az [AGENTS.md](AGENTS.md) fájlban vannak; publikálás előtt a `python3 scripts/validate-package.py` ellenőrzi a csomagot.
 
