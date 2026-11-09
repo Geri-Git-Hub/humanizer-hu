@@ -29,7 +29,7 @@ A munkafájlokat a scratchpadbe tedd, ne a repóba.
 **Harmadik lépés, értékelés.** Vesd össze a két készletet, és válaszolj:
 
 - Mit változtatott a skill? Hol lett jobb a szöveg, és hol nem változott semmi?
-- A 26 minta közül melyiket szegi meg a skillel készült szöveg is?
+- A 27 minta közül melyiket szegi meg a skillel készült szöveg is?
 - Túlkorrigált-e valahol? Van-e olyan mondat, ami a szabály miatt lett
   mesterkéltebb vagy szegényebb magyar, mint a skill nélküli változat?
 - Érthető volt-e minden szabály elolvasásra, vagy volt, amin gondolkodnod

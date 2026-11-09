@@ -3,17 +3,18 @@ name: humanizer-hu
 description: >
   Magyar szöveg megfogalmazási szabályai generáláshoz: ne hangozzon AI-nak, és csak azt állítsa,
   amit a kérés vagy a forrás tartalmaz. Hívd meg, amikor magyar user storyt, specifikációt, ADR-t, jegyet,
-  dokumentációt, e-mailt vagy ügyfélszöveget írsz: a hívó feladat adja a szerkezetet, ez a skill a nyelvet.
+  dokumentációt, e-mailt, árajánlatot, ügyfélüzenetet, LinkedIn-posztot, egyetemi esszét, beadandót vagy
+  szakdolgozatot írsz: a hívó feladat adja a szerkezetet, ez a skill a nyelvet.
   Akkor is, ha a kérés "humanizáld" vagy "írd emberi hangon". Csak magyar folyó szövegre; gép-gép kimenetre
   (JSON, log, séma, parancs) ne.
 license: MIT
 metadata:
-  version: "2.9.0"
+  version: "2.10.0"
 ---
 
 # Humanizer-hu: magyar szöveg AI-jelek nélkül
 
-Írj úgy, ahogy egy tapasztalt magyar elemző ír dokumentációt. Az olvasó ember: fejlesztő, ügyfél, üzleti szereplő.
+Írj úgy, ahogy egy tapasztalt magyar szakember ír a munkájában: dokumentációt, levelet, ajánlatot, tanulmányt. Az olvasó ember: fejlesztő, ügyfél, üzleti szereplő.
 
 Ez a skill a nyelvet adja, a szerkezetet a hívó feladat. Ha kaptál sablont, szakaszokat, formátumot vagy részletességi szintet, azt kövesd; ez a skill nem írja felül. A kimenet a kész szöveg, vázlat, szabálylista és összefoglaló nélkül. Ha a saját korábbi vázlatodon iterálsz, ugyanezek a szabályok érvényesek rá.
 
@@ -23,7 +24,7 @@ Csak magyar folyó szövegre való. Gép-gép kimenetre (JSON, log, séma, paran
 
 ## Miért hangzik így az AI-szöveg
 
-A nyelvi modell azt írja, ami a legvalószínűbb folytatás, ezért alapból azt választja, ami a legtöbb olvasónak és témának megfelel. Az ember egy olvasónak és egy témának ír, ezért a választásai egyenetlenek és konkrétak. Hat szokás következik ebből, és a mintacsoportok ezeket követik:
+A nyelvi modell azt írja, ami a legvalószínűbb folytatás, ezért alapból azt választja, ami a legtöbb olvasónak és témának megfelel. Az ember egy olvasónak és egy témának ír, ezért a választásai egyenetlenek és konkrétak. Hét szokás következik ebből, és a mintacsoportok ezeket követik:
 
 - Színpadiasság. A mondat jelzi a fontosságot ahelyett, hogy tényt adna.
 - Ritmus és tükörfordítás. Hármasok és gondolatjelek mindenhová; angol szerkezet magyar szavakkal.
@@ -31,6 +32,7 @@ A nyelvi modell azt írja, ami a legvalószínűbb folytatás, ezért alapból a
 - Formázás. Félkövér és cím minden elemre.
 - Maradványok. Chat-keretek és vázlatolási mozdulatok, amiket sosem az olvasónak szántak.
 - Megszólítás. Mondatonként újra eldöntve.
+- Angol helyesírás. Vessző, nagybetű és számírás az angol szabály szerint, magyar szavakkal.
 
 A szóhasználat modellkiadásonként változik, a szerkezeti szokások maradnak, ezért azok vezetik a listát.
 
@@ -64,9 +66,43 @@ Két döntés, és mindkettő végigmegy a szövegen. Az első, hogyan szólíto
 
 Döntsd el az első mondat előtt, mennyit árul el a szöveg. Alapértelmezésben a §11, a §14 és a §17 érvényes: nevezd meg a cselekvőt, a viszonyt és a forrást. A hívó feladat és a dokumentum fajtája viszont felülírja ezt. Ha a szöveg szélesebb közönségnek szól, vagy a feladat összefoglalást kér, az általános, cselekvő nélküli megfogalmazás tartalom, nem gépiesség. A határ ugyanaz, mint a §23-ban: általánosítani szabad, kitalálni nem. Ha nem dönthető el, mennyit árulhatsz el, kérdezz; ha nincs kit kérdezned, hagyd el a mondatot vagy nevezd meg, mi hiányzik. Tartalmatlan mondatot ne írj csak azért, hogy a hely be legyen töltve.
 
+### Levél, ajánlat, poszt
+
+A levél műfaja ad formát, és ez a forma régebbi a chatbotoknál: megszólítás, tartalom, elköszönés. A gépiesség a forma körüli töltelék.
+
+- Megszólítás: "Kedves Anna!", "Kedves Kovács Péter!", "Tisztelt Kovács Úr!". A név magyar sorrendben áll, előbb a családnév. A megszólítás után felkiáltójel jön, és a levél új bekezdésben, nagybetűvel indul. Ha a hívó feladat vagy a cég mintája mást használ, az nyer.
+- Az első mondat a levél oka: válasz a kérdésre, a csatolt ajánlat, a kért időpont. "Remélem, jól van" és "Köszönöm, hogy megkeresett" csak akkor, ha valódi előzmény van mögötte.
+- A zárás egy konkrét következő lépés, ha van: mit kérsz, mikorra, kitől. Általános felajánlás ("Ha bármilyen kérdése van...") helyett ez. Utána az elköszönés ("Üdvözlettel:", "Köszönettel:") és a név.
+- Árajánlat kísérőlevele: mit tartalmaz az ajánlat, a végösszeg nettó vagy bruttó jelöléssel, az érvényesség, és mi kell az ügyféltől a továbblépéshez. A számok a forrásból jönnek; ha az érvényesség vagy az ÁFA nincs megadva, kérdezz.
+- Poszt: az első mondat a tartalom, nem horog ("Ezt senki nem mondja el neked:"). Nincs emojis felsorolás, nincs "Mit gondolsz? Írd meg kommentben!" zárás, a hashtag legfeljebb néhány, a végén. Tegező vagy magázó hang a szerző korábbi posztjait követi; ha nincs minta, kérdezz.
+
+**Ne írd:**
+> Kedves Kovács Úr,
+>
+> remélem, ez az e-mail jó egészségben találja! Örömmel küldöm át Önnek az átfogó árajánlatunkat, amely az Ön igényeire szabott megoldást kínál. Ha bármilyen kérdése van, ne habozzon felvenni velem a kapcsolatot!
+**Így írd:**
+> Kedves Kovács Úr!
+>
+> Csatolom a raktári polcrendszer árajánlatát. A végösszeg 4 860 000 Ft + ÁFA, benne a szállítás és a szerelés. Az ajánlat 2026. december 15-ig érvényes. Ha a januári szállítás megfelel, kérem, jelezze december 5-ig, hogy lefoglalhassuk a szerelőcsapatot.
+>
+> Üdvözlettel:
+> Nagy Eszter
+
+### Esszé, beadandó, szakdolgozat
+
+A szerkezetet, a fejezeteket és a hivatkozás formáját a tanszéki követelmény vagy a hívó feladat adja; ez a szakasz a nyelvet.
+
+- Forrás: csak olyan műre hivatkozz, amit a felhasználó megadott, vagy amit a feladat során ténylegesen elolvastál. Szerzőt, évet, címet, oldalszámot és szó szerinti idézetet soha ne találj ki (§17, §23). Ha egy állításhoz forrás kellene, de nincs, jelöld a helyét "[forrás szükséges]" alakban, és kérd el.
+- A kötelező Bevezetés és Összegzés nem §13-hiba, de az összegzés a dolgozat konkrét megállapításait mondja ki, nem a téma fontosságát.
+- Az író megnevezése a tanszéki szokást követi: szerzői T/1 ("megvizsgáljuk"), E/1 ("úgy látom") vagy személytelen, és végig ugyanaz marad. Az olvasót a dolgozat nem szólítja meg.
+- A tudományos szöveg személytelenebb a levélnél: ha a cselekvő maga a kutató vagy közömbös, elhagyható ("a kérdőívet 2025 tavaszán vettük fel" és "a kérdőív 2025 tavaszán készült" is jó). A "kerül" passzív itt is kerülendő (§11).
+- Álláspont: ahol a feladat érvelést kér, a szöveg vállalja az állítását, és megmondja, mire alapozza. A halmozott bizonytalanítás (§9) és a szakértők mögé bújás (§17) itt a leggyakoribb hiba.
+- Szakszó: a bevett magyar terminus áll. Első előfordulásnál az angol megfelelő zárójelben megengedett, ha a szakirodalom angol; ez a Zárójel szakasz kivétele.
+- A dolgozat publikálandó szöveg: magyar idézőjel (§21) és kiírt dátum. Az összefüggő érvelés bekezdésben áll, felsorolás csak tételes tartalomhoz.
+
 ### Hang és szakszavak
 
-A hang semleges és szakmai: nem chatbot, nem hivatalnok. Váltogasd a mondathosszt. A dátum ISO alakban áll a folyó szövegben is (2026-09-10), a toldalék kötőjellel kapcsolódik (2026-09-10-én). Publikálandó szövegben a kiírt magyar alak áll (2026. szeptember 10.), ugyanazon az alapon, amin a §21 ott a magyar idézőjelet hagyja meg. Az angol szakzsargon (sprint, backlog, deploy, release, feature, ticket, endpoint, pull request és a hasonlók) a csapat közös nyelve, hagyd angolul; a §10 a szerkezeti tükörfordításokat érinti, a szakszavakat nem. Ez a fejlesztőnek és a szakmai olvasónak szól. Nem technikai olvasónak (ügyfélszolgálati levél, publikus cikk, B2C szöveg) a magyar szó jár, ahol van (kiadás, funkció, hibajegy), és a szakszó csak akkor marad, ha az olvasó maga is azt használja.
+A hang semleges és szakmai: nem chatbot, nem hivatalnok. Váltogasd a mondathosszt. A dátum ISO alakban áll a folyó szövegben is (2026-09-10), a toldalék kötőjellel kapcsolódik (2026-09-10-én). Publikálandó szövegben a kiírt magyar alak áll (2026. szeptember 10.), ugyanazon az alapon, amin a §21 ott a magyar idézőjelet hagyja meg. Publikálandó az a szöveg, ami a csapaton kívüli olvasóhoz jut el: cikk, poszt, ügyfélnek küldött levél, ajánlat. Az angol szakzsargon (sprint, backlog, deploy, release, feature, ticket, endpoint, pull request és a hasonlók) a csapat közös nyelve, hagyd angolul; a §10 a szerkezeti tükörfordításokat érinti, a szakszavakat nem. Ez a fejlesztőnek és a szakmai olvasónak szól. Nem technikai olvasónak (ügyfélszolgálati levél, publikus cikk, B2C szöveg) a magyar szó jár, ahol van (kiadás, funkció, hibajegy), és a szakszó csak akkor marad, ha az olvasó maga is azt használja.
 
 Ha kaptál írásmintát, olvasd el először, és igazodj a mondathosszához, szóválasztásához, írásjeleihez, mondatkezdéseihez és átvezetéseihez. A minta felülírja az alábbi mintákat, a §8-at is: ha a minta gondolatjelet használ, tartsd nagyjából ugyanazt az arányt.
 
@@ -153,10 +189,10 @@ A legerősebb és leggyakoribb gépies vonások a mai modellek szövegeiben.
 
 ### 10. Anglicizmusok és tükörfordítások
 
-**Kerüld:** "Ez egy..." és a határozatlan névelő ott, ahol a magyar nem tesz ("ez egy fontos lépés", "egy jelentős kihívás"); kihívás probléma vagy feladat helyett; navigálni a kihívások között; címezni a problémát; biztosítja, hogy; lehetővé teszi, hogy; képes arra, hogy; amikor arról van szó, hogy; egy olyan X, amely; Íme; -val/-vel kapcsolatban; jelentős mértékben; [valami] szinten; felesleges "az, hogy" beékelés; a birtokos szerkezet megfordítása ("a teljesítménye a rendszernek"); angol szórend, ahol az időhatározó a mondat végére csúszik ("A csapat befejezte a migrációt a múlt héten")
-**Probléma:** A modell angolul gondolkodik és magyarul ír: az angol szerkezet magyar szavakkal jelenik meg. Ennek magyar neve van, fordításnyelv, és a szaknyelvben a legerősebb, mert a szakszöveg angol forrásból készül. A gépiesség a szerkezetben van, nem a szókincsben. Az angol szakszavak (agent, sprint, deploy, backlog, ticket, release, endpoint, feature, pull request) a csapat nyelve: hagyd őket angolul, és ne fordítsd le zárójelben.
-**Ne írd:** "Ez egy jelentős kihívás a csapat számára, és a migráció egy jó lehetőség arra, hogy címezzük a technikai adósságot."
-**Így írd:** "A migráció nehéz feladat a csapatnak, de közben a technikai adósság egy részét is ledolgozzuk."
+**Kerüld:** "Ez egy..." és a határozatlan névelő ott, ahol a magyar nem tesz ("ez egy fontos lépés", "egy jelentős kihívás"); kihívás probléma vagy feladat helyett; navigálni a kihívások között; címezni a problémát; biztosítja, hogy; lehetővé teszi, hogy; képes arra, hogy; amikor arról van szó, hogy; egy olyan X, amely; Íme; -val/-vel kapcsolatban; jelentős mértékben; [valami] szinten; felesleges "az, hogy" beékelés; a birtokos szerkezet megfordítása ("a teljesítménye a rendszernek"); angol szórend, ahol az időhatározó a mondat végére csúszik ("A csapat befejezte a migrációt a múlt héten"); számára (ahol -nak/-nek elég: "a felhasználók számára elérhető"); által (az angol by: "a csapat által fejlesztett"); abban az esetben, ha; annak érdekében, hogy; legyen szó akár; -tól/-től ... -ig keret felsorolás helyett ("a kisvállalkozásoktól a nagyvállalatokig"); kiírt birtokos névmás, ahol a személyjel elég ("az Ön igényei", "a mi csapatunk"); fog + főnévi igenév, ahol a jelen idő is jövőt jelöl ("a rendszer el fogja küldeni"); a nap végén
+**Probléma:** A modell angolul gondolkodik és magyarul ír: az angol szerkezet magyar szavakkal jelenik meg. Ennek magyar neve van, fordításnyelv, és a szaknyelvben a legerősebb, mert a szakszöveg angol forrásból készül. A gépiesség a szerkezetben van, nem a szókincsben. Az angol for, by és in order to névutós körülírásként jön át ott, ahol a magyar raggal vagy egy "hogy"-gyal megoldja. A birtokos személyjel már jelöli a birtokost, a kiírt névmás csak nyomatékhoz kell. A magyar jelen idő jövőre is utal, ha a mondat vagy a helyzet mutatja az időt; a "fog" az angol will nyoma. Az angol szakszavak (agent, sprint, deploy, backlog, ticket, release, endpoint, feature, pull request) a csapat nyelve: hagyd őket angolul, és ne fordítsd le zárójelben.
+**Ne írd:** "Ez egy jelentős kihívás a csapat számára, és a migráció egy jó lehetőség arra, hogy címezzük a technikai adósságot. A rendszer a jövő héttől automatikusan el fogja küldeni az Ön számláit."
+**Így írd:** "A migráció nehéz feladat a csapatnak, de közben a technikai adósság egy részét is ledolgozzuk. A rendszer a jövő héttől automatikusan elküldi a számláit."
 
 ### 11. Passzív szerkezetek és elrejtett cselekvő
 
@@ -259,8 +295,8 @@ Sablonok és vizuális szerkesztők is tiszta formázást adnak. A gépiesség a
 
 ### 22. Chatbot-maradvány
 
-**Kerüld:** Remélem, segítettem, Remélem, ez segít, Természetesen!, Persze!, Nagyszerű kérdés!, Teljesen igazad van, Ahogy kérted, Elkészítettem, Szeretnéd, ha..., Elkészítsem...?, Folytassam?, Segíthetek még valamiben?, szólj, ha, Ha bármi kérdésed van, íme egy..., Kérdezz bátran
-**Probléma:** A chatbot üdvözlése, dicsérete, ajánlata vagy elköszönése olyan szövegbe kerül, aminek önállóan kell állnia. Ez a lista legmegbízhatóbb tétele, és a legkönnyebb elnézni, ha valódi tartalmat csomagol. Tegező és magázó alakban is jön ("szólj, ha", "szóljon, ha"). A szöveg a tartalommal kezdődik és az utolsó ténnyel végződik.
+**Kerüld:** Remélem, segítettem, Remélem, ez segít, Természetesen!, Persze!, Nagyszerű kérdés!, Teljesen igazad van, Ahogy kérted, Elkészítettem, Szeretnéd, ha..., Elkészítsem...?, Folytassam?, Segíthetek még valamiben?, szólj, ha, Ha bármi kérdésed van, Ha bármilyen kérdése van, forduljon hozzám bizalommal, ne habozzon, jó egészségben találja, íme egy..., Kérdezz bátran
+**Probléma:** A chatbot üdvözlése, dicsérete, ajánlata vagy elköszönése olyan szövegbe kerül, aminek önállóan kell állnia. Ez a lista legmegbízhatóbb tétele, és a legkönnyebb elnézni, ha valódi tartalmat csomagol. Tegező és magázó alakban is jön ("szólj, ha", "szóljon, ha"), levélben a sablonos felajánlás ("Ha bármilyen kérdése van, forduljon hozzám bizalommal!") és a tükörfordított "ne habozzon" a leggyakoribb alakja. A szöveg a tartalommal kezdődik és az utolsó ténnyel végződik; levélben ezután jön az elköszönés.
 **Ne írd:** "Nagyszerű kérdés! Íme egy áttekintés a jóváhagyási folyamatról. [...] Remélem, segítettem! Szólj, ha bármelyik lépést részletezzem."
 **Így írd:** "A kérelmet a közvetlen vezető hagyja jóvá, 50 000 Ft felett a pénzügyi igazgató is."
 
@@ -300,9 +336,18 @@ Sablonok és vizuális szerkesztők is tiszta formázást adnak. A gépiesség a
 **Ne írd:** "A beállítások menüben módosíthatja a nyelvet. Kattints a Mentés gombra, és a rendszer elmenti a választásod."
 **Így írd:** "A beállítások menüben módosíthatja a nyelvet. Kattintson a Mentés gombra, a rendszer elmenti a választását."
 
+## G. Helyesírás
+
+### 27. Angol írásjel- és számírási szokások
+
+**Szabály:** A mondat elején álló kötőszó vagy határozószó után nincs vessző ("Ezért a csapat...", "Továbbá a rendszer..."), csak ha közbevetés vagy mellékmondat következik. Mellérendelt szavak felsorolásában az "és" és a "vagy" elé nem kerül vessző ("a bejelentkezés, a mentés és a kilépés"). A hónap, a hét napja, a nyelv és a nemzetiség kisbetűs a mondat belsejében (november, hétfő, magyar, angol). Számírás: tizedesvessző (2,5), ezres tagolás szóközzel (50 000), a pénznem a szám után (12 000 Ft), dátum a Hang és szakszavak szakasz szerint. A sorszám ponttal áll (3. lépés, 2. emelet).
+**Probléma:** A modell az angol írásjel- és számszabályt viszi át: vesszőt tesz a bevezető szó után és a felsorolás utolsó "és"-e elé (Oxford comma), nagybetűvel írja a hónapot és a nemzetiséget, ezres tagolásra vesszőt használ. Magyar olvasónak a "2,500" két és fél, nem kétezer-ötszáz, ezért a számírás nem csak stílus, hanem pontosság. Két tagmondat között az "és" előtt a vessző helyes; a szabály a felsorolt szavakra vonatkozik.
+**Ne írd:** "Továbbá, a Novemberi frissítés után a havidíj 12,500 Ft lesz, a Magyar, Angol, és Német felületen is."
+**Így írd:** "A novemberi frissítés után a havidíj 12 500 Ft lesz, a magyar, az angol és a német felületen is."
+
 ## Ellenőrző kör
 
-Mielőtt visszaadod a szöveget, olvasd át egyszer, és nézd meg ezt a hetet. Ezek élik túl a leggyakrabban a saját ellenőrzésedet:
+Mielőtt visszaadod a szöveget, olvasd át egyszer, és nézd meg ezt a kilencet. Ezek élik túl a leggyakrabban a saját ellenőrzésedet:
 
 1. Hamis ellentét, üres tagadó féllel (§1)
 2. Egysoros zárás vagy búcsúzó bekezdés (§2, §13)
@@ -311,6 +356,8 @@ Mielőtt visszaadod a szöveget, olvasd át egyszer, és nézd meg ezt a hetet. 
 5. Félkövér címke a felsorolásban (§19)
 6. "Kerül" passzív (§11)
 7. Tény, név, szám, dátum vagy forrás, ami nem a kérésből és nem a forrásból jön (§17, §23)
+8. Tükörfordított névutó és jövő idő: számára, által, annak érdekében, fog (§10)
+9. Vessző a mondatkezdő kötőszó után, nagybetűs hónap vagy nemzetiség, vesszővel tagolt ezres (§27)
 
 Nézd a bekezdések alakját is, ne csak a mondatokat: a két mondatra osztott ellentét, a három párhuzamos példa és a minden szakasz után ismétlődő zárás ugyanaz a gépiesség, nagyobb léptékben. Ha egy mondat suta marad, írd át a bekezdést a fő pontja köré.
 

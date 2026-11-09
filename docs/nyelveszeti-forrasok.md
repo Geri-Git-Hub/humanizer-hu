@@ -192,6 +192,26 @@ gondosan fogalmaznak, mint a fordítók. Ez pontosan a skill célterülete.
 - "-ra/-re fókuszál" kiesett: a -ra/-re a magyar vonzat, az "összpontosít" is
   azt kéri, a "fókuszál" pedig meghonosodott szó.
 
+Bővítés a 2.10.0-ban: névutók, jövő idő, birtokos névmás. Ezek megfigyelésen
+alapulnak, a nyelvtani háttér viszont a magyar leíró nyelvtan közismert része.
+
+- "számára", "által", "annak érdekében, hogy", "abban az esetben, ha": az angol
+  for, by, in order to és in case körülírása névutóval vagy utalószós
+  mellékmondattal ott, ahol a magyar raggal (-nak/-nek) vagy egy kötőszóval
+  ("hogy", "ha") megoldja. Az "által" a passzívpótló melléknévi igenévvel ("a
+  csapat által fejlesztett") a nyelvművelő irodalom régi témája; maga a szerkezet
+  helyes, a gépiesség a sűrűségében van. Ezért a lint ezeket gyanúsként jelzi,
+  nem biztosként.
+- Jövő idő: a magyarban a jelen idejű alak jövőre is utal, ha időhatározó vagy a
+  helyzet jelzi az időt ("holnap elküldi"). A "fog" + főnévi igenév szabályos
+  jövő idő, de ahol a jelen is elég, ott az angol will tükre.
+- Birtokos névmás: a magyar birtokos személyjel jelöli a birtokost
+  ("számláit"), ezért a kiírt névmás ("az Ön számláit") nyomatékot vagy
+  szembeállítást ad. Az angol your/our kötelező, innen jön a halmozása.
+- "legyen szó akár X-ről, akár Y-ról" és a "-tól ... -ig" keret: az angol
+  "whether it's X or Y" és "from X to Y" felsoroló fordulatok tükre. Tisztán
+  megfigyelés, nyelvészeti forrást nem találtunk rá.
+
 ## §11. Passzív szerkezetek és elrejtett cselekvő
 
 A magyar nyelvművelés neve erre a családra **terpeszkedő szerkezet**, a
@@ -282,6 +302,31 @@ egy lapcímre ne adjon hamis találatot.
 
 Nem került be: az a szabály, hogy a cím végére nem teszünk pontot. Ismert
 konvenció, de a keresés nem erősítette meg, ezért kimaradt.
+
+## §27. Angol írásjel- és számírási szokások
+
+A szabályok forrása A magyar helyesírás szabályai, 12. kiadás (Akadémiai Kiadó,
+2015), online: https://helyesiras.mta.hu/helyesiras/default/akh12
+
+- Kisbetű: a hónapok és a hét napjainak neve, valamint a nyelvek és népek neve
+  köznév, ezért a mondat belsejében kisbetűs. A kis és nagy kezdőbetűről szóló
+  fejezet tárgyalja.
+- Vessző: mellérendelt mondatrészek között az "és", "s", "meg", "vagy" előtt
+  nem áll vessző; tagmondatok között viszont áll. Ezért a lint ezt a szabályt
+  nem nézi: a két eset regexszel nem választható szét.
+- A mondat elején álló kötőszó vagy határozószó ("Továbbá", "Ezért") után a
+  magyar nem tesz vesszőt, mert nincs tagmondathatár; az angol a bevezető elem
+  után igen. Ez a mi megfogalmazásunk az írásjelfejezetből, nem szó szerinti
+  szabály. A lint kihagyja azt az esetet, amikor mellékmondat vagy közbevetés
+  jön utána ("Így, ha a kérés lejár, ...").
+- Számírás: a tizedes jel a vessző. A négy számjegynél hosszabb számot hármas
+  csoportokra lehet tagolni; a vessző erre nem használható, mert tizedes
+  törtnek olvasható. A sorszám ponttal áll. A lint a "12,500" alakot gyanúsként
+  jelzi, mert tényleg lehet háromjegyű tizedes tört.
+- A levélbeli megszólítás utáni felkiáltójel a hagyományos magyar alak; a
+  vessző és a kisbetűs folytatás ("Kedves Anna, / remélem...") az angol levél
+  nyoma. A skill a felkiáltójelet kéri, de a cég vagy a hívó feladat mintája
+  felülírja.
 
 ## Próba éles feladaton (2026-09-12)
 

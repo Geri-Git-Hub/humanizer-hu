@@ -10,7 +10,7 @@ Tartsd a skillt hordozhatónak. Ne írj olyan utasítást, ami egy vagy két age
 
 ## Fő fájlok
 
-- `SKILL.md` az igazság forrása és a repo egyetlen skill fájlja. Hordozható YAML metaadatot, egy magyarázatot arról, miért hangzik így az AI-szöveg, egy dokumentumszintű réteget (számozatlan, az első mondat előtti döntések), hat csoportba rendezett számozott mintákat és egy ellenőrző kört tartalmaz.
+- `SKILL.md` az igazság forrása és a repo egyetlen skill fájlja. Hordozható YAML metaadatot, egy magyarázatot arról, miért hangzik így az AI-szöveg, egy dokumentumszintű réteget (számozatlan, az első mondat előtti döntések), hét csoportba rendezett számozott mintákat és egy ellenőrző kört tartalmaz.
 - `README.md` a telepítést, a használatot, a mintákat, az eredetet és a verziótörténetet írja le.
 - `.claude-plugin/plugin.json` a Claude plugint írja le, és a skill betöltőjét a gyökér `SKILL.md`-re irányítja.
 - `.claude-plugin/marketplace.json` teszi lehetővé, hogy a repót Claude marketplace-ként lehessen hozzáadni.
@@ -21,7 +21,7 @@ Tartsd a skillt hordozhatónak. Ne írj olyan utasítást, ami egy vagy két age
 
 ## Viszony az eredetihez
 
-A 2.0.0 óta a két projekt célja eltér: a blader/humanizer meglévő szöveget ír át, a Humanizer-hu generáláshoz ad szabályokat. A 26 minta számozása azért követi az eredeti 3.0.0-t, mert onnan indult a lista, és a hivatkozások erre épülnek. Az eltérések: a 10. minta cserélődött (anglicizmusok és tükörfordítások), a 11. bővült ("kerül" passzív), a 26. új, a dokumentumszintű rétegnek pedig nincs upstream megfelelője.
+A 2.0.0 óta a két projekt célja eltér: a blader/humanizer meglévő szöveget ír át, a Humanizer-hu generáláshoz ad szabályokat. A minták számozása azért követi az eredeti 3.0.0-t, mert onnan indult a lista, és a hivatkozások erre épülnek. Az eltérések: a 10. minta cserélődött (anglicizmusok és tükörfordítások), a 11. bővült ("kerül" passzív), a 26. és a 27. új, a dokumentumszintű rétegnek pedig nincs upstream megfelelője.
 
 Az upstream továbbra is hasznos bemenet egy új mintához, de nem kötelező tükör. Ha átveszel onnan valamit, fogalmazd meg generálási szabályként, és a README verziótörténetében hivatkozz az upstream verzióra.
 

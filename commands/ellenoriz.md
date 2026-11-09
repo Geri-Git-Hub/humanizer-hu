@@ -1,5 +1,5 @@
 ---
-description: Magyar szöveg átnézése a Humanizer-hu 26 mintája ellen. Jelentést ad, nem ír át.
+description: Magyar szöveg átnézése a Humanizer-hu 27 mintája ellen. Jelentést ad, nem ír át.
 argument-hint: [fájl vagy útvonal]
 ---
 
@@ -27,7 +27,7 @@ a mintákkal együtt frissül. Két szintet ad:
 
 - **BIZTOS**: szabálysértés a darabszámtól függetlenül (hosszú gondolatjel,
   magányos gondolatjel tagmondatok között, görbe idézőjel, Title Case-szerű címsor, dísz a címsorban, `kerül` passzív,
-  félkövér címke a felsorolásban).
+  félkövér címke a felsorolásban, vessző a mondatkezdő kötőszó után, nagybetűs hónap vagy nap).
 - **gyanús**: emberi döntést kér. A §12 saját szövege mondja ki, hogy egy szó
   egyszeri előfordulása még nem gépiesség. Ezeket mérlegeld, ne jelentsd
   automatikusan hibának.
@@ -40,6 +40,8 @@ amit a script nem lát:
 - §6 erőltetett hármas: három értékelő melléknév vagy három párhuzamos
   szerkezet, ami nem valódi három.
 - §7 ismétlődő mondatkezdés: kiírt alany ott, ahol a magyar elhagyná.
+- §10 tükörfordítás, amit a regex nem lát: "fog" + főnévi igenév ott, ahol a
+  jelen idő is jövőt jelöl, és kiírt birtokos névmás ("az Ön igényei").
 - §13 felfújt jelentőség, főleg új tényt nem adó záró szakasz.
 - §14 homályos kapcsolat: elkent okság, vagy feltevés, ami nem vállalja magát.
 - §17 kölcsönzött tekintély: meg nem nevezett best practice, vagy nagy cég neve
@@ -49,6 +51,9 @@ amit a script nem lát:
 - §25 az előző verzió leírása a mostani működés helyett.
 - §26 megszólításkeveredés: tegezés és magázás, `Ön` és `ön`, szerkesztői T/1 és
   személytelen váltakozása.
+- §27 vessző a felsorolás utolsó "és"-e előtt, nagybetűs nyelv vagy nemzetiség.
+- Levélben a Levél, ajánlat, poszt szakasz: megszólítás felkiáltójellel, az első
+  mondat a levél oka, zárásként konkrét következő lépés.
 
 Nézd a bekezdések alakját is, ne csak a mondatokat.
 
