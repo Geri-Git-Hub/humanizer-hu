@@ -1,6 +1,6 @@
 # Humanizer-hu
 
-Magyar írásstílus-skill agenteknek, generáláshoz. A szabályok írás közben hatnak, nem a kész szöveg utólagos tisztításakor: a hívó feladat adja a szerkezetet (user story, specifikáció, ADR, jegy, dokumentáció, e-mail, árajánlat, poszt), a Humanizer-hu a nyelvet. A másik alapszabálya, hogy csak azt állítja, amit a kérés vagy a forrás tartalmaz: nevet, számot, dátumot, idézetet és hivatkozást nem talál ki, hanem elkéri, vagy egyszerűbb mondatot ír.
+Magyar írásstílus-skill agenteknek, generáláshoz. A szabályok írás közben hatnak, nem a kész szöveg utólagos tisztításakor: a hívó feladat adja a szerkezetet (user story, specifikáció, ADR, jegy, dokumentáció, e-mail, árajánlat, poszt, esszé, beadandó), a Humanizer-hu a nyelvet. A másik alapszabálya, hogy csak azt állítja, amit a kérés vagy a forrás tartalmaz: nevet, számot, dátumot, idézetet és hivatkozást nem talál ki, hanem elkéri, vagy egyszerűbb mondatot ír.
 
 Az agenttel íratott magyar dokumentumon látszik, hogy gép írta: erőltetett hármasok, "kerül" passzív, felfújt jelzők, gondolatjel minden tagmondat között, tegezés és magázás váltakozva. A Humanizer-hu ezt a réteget cseréli le. 27 mintát ad hét csoportban, és egy dokumentumszintű döntéssort, ami az első mondat előtt lefut. A minták magyar példákon állnak, magyar nyelvtani háttérrel, és háromnak angolul nincs is értelme: a tükörfordításnak, a megszólításnak és az angol írásjel- és számírási szokásoknak.
 
@@ -8,6 +8,7 @@ Az agenttel íratott magyar dokumentumon látszik, hogy gép írta: erőltetett 
 
 - Dokumentumszintű réteg. Hosszúság, folyó szöveg vagy felsorolás, alcím, zárójel, megszólítás és részletesség az első mondat előtt dől el, mert ezek utólag, mondatonként nem javíthatók.
 - Levél, ajánlat, poszt. Külön szabály a magyar levél formájára (megszólítás, első mondat, konkrét következő lépés, elköszönés), az árajánlat kísérőlevelére és a LinkedIn-posztra.
+- Esszé, beadandó, szakdolgozat. Csak megadott vagy elolvasott forrásra hivatkozik, a hiányzó forrás helyét jelöli; egy szerzői forma végig; álláspont halmozott bizonytalanítás nélkül.
 - Magyar nyelvtani háttér. A "kerül" passzív, a terpeszkedő szerkezet, a pro-drop, a birtokos szórend és a magyar tipográfia saját mintát kap, a hivatkozások a [docs/nyelveszeti-forrasok.md](docs/nyelveszeti-forrasok.md) fájlban vannak.
 - Gépi ellenőrzés. A `scripts/lint-hu.py` LLM nélkül jelzi a szabálysértéseket, tehát nem az a modell nézi át a szöveget, amelyik írta. A mintalistát a `SKILL.md`-ből olvassa, és nem ír át semmit.
 - Hangillesztés. Írásmintából átveszi a mondathosszt, a szóválasztást és az írásjeleket, és a minta felülírja a skill saját tipográfiai szabályait.
@@ -214,6 +215,7 @@ Ezek a döntések az első mondat előtt születnek, és utólag nem javítható
 | Megszólítás | Két tengely: az olvasó megszólítása és az író megnevezése. Mindkettő egy forma végig. |
 | Részletesség | Az első mondat előtt dönts. Általánosítani szabad, kitalálni nem. |
 | Levél, ajánlat, poszt | Magyar megszólítás felkiáltójellel, az első mondat a levél oka, zárásként konkrét következő lépés. Poszt horog és emojis lista nélkül. |
+| Esszé, beadandó, szakdolgozat | Kitalált hivatkozás nincs, a hiányzó forrás helye jelölve. Egy szerzői forma végig, vállalt álláspont, angol terminus első előfordulásnál zárójelben. |
 | Hang | Semleges és szakmai, váltakozó mondathosszal. Az írásminta felülír. |
 
 ## Eredet
@@ -231,7 +233,7 @@ A 12. minta szójegyzéke megfigyelésen alapul, nem korpuszon. Ez a repo élő 
 
 ## Verziótörténet
 
-- 2.10.0 - Üzleti levél, árajánlat és poszt. Új dokumentumszintű szakasz a levél formájáról, egy kísérőlevél-példával. Új 27. minta (angol írásjel- és számírási szokások) új G csoportban, lintszabállyal a mondatkezdő kötőszó utáni vesszőre, a nagybetűs hónapra és a vesszővel tagolt ezresre. A §10 új tükörfordításokat kap ("számára", "által", "annak érdekében, hogy", "abban az esetben, ha", "legyen szó akár", fölösleges "fog", kiírt birtokos névmás), a §22 a magázó levélfordulatokat ("Ha bármilyen kérdése van", "ne habozzon"). Publikálandó szövegnek számít az ügyfélnek küldött levél és ajánlat is. Az ellenőrző kör kilenc tételes. A lint a nagybetűs "Ha..." tételt nem fűzi az előző kifejezéshez, ezért a "szólj, ha" és a "Ha bármi kérdésed van" külön találat.
+- 2.10.0 - Üzleti levél, árajánlat, poszt és egyetemi szöveg. Új dokumentumszintű szakasz a levél formájáról, egy kísérőlevél-példával, és egy az esszére, beadandóra és szakdolgozatra: hivatkozás csak valós forrásra, a hiányzó forrás helye jelölve. Új 27. minta (angol írásjel- és számírási szokások) új G csoportban, lintszabállyal a mondatkezdő kötőszó utáni vesszőre, a nagybetűs hónapra és a vesszővel tagolt ezresre. A §10 új tükörfordításokat kap ("számára", "által", "annak érdekében, hogy", "abban az esetben, ha", "legyen szó akár", fölösleges "fog", kiírt birtokos névmás), a §22 a magázó levélfordulatokat ("Ha bármilyen kérdése van", "ne habozzon"). Publikálandó szövegnek számít az ügyfélnek küldött levél és ajánlat is. Az ellenőrző kör kilenc tételes. A lint a nagybetűs "Ha..." tételt nem fűzi az előző kifejezéshez, ezért a "szólj, ha" és a "Ha bármi kérdésed van" külön találat.
 - 2.9.0 - A §8 gondolatjelszabálya követi a magyar helyesírást. A közbevetéshez eddig kötőjelet írt elő, ami más írásjel; most a zárójel vagy az átírás az első, és ha mégis gondolatjeles, akkor páros szóközös nagykötőjel, ritkán. A magányos szóközös gondolatjel tagmondatok között tilos marad, és a lint BIZTOS találatként jelzi, a címsorbeli gondolatjellel együtt.
 - 2.8.1 - A Forrás szakasz kikerült a SKILL.md-ből: a promptban nem volt szerepe, a README Források szakasza tartalmazza.
 - 2.8.0 - Négy pontosítás külső bírálatból. Publikálandó szövegben a dátum kiírt magyar alakban áll, ahogy az idézőjel is. A §19 engedi a felület elemének nevét (gomb, menüpont) félkövérrel vagy inline kóddal használati útmutatóban. A szakzsargon-kivétel a fejlesztő és a szakmai olvasóhoz kötött, nem technikai olvasónak a magyar szó jár. A lint `--published` kapcsolója publikálandó szövegben nem jelzi a görbe idézőjelet.

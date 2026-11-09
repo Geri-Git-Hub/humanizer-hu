@@ -3,8 +3,8 @@ name: humanizer-hu
 description: >
   Magyar szöveg megfogalmazási szabályai generáláshoz: ne hangozzon AI-nak, és csak azt állítsa,
   amit a kérés vagy a forrás tartalmaz. Hívd meg, amikor magyar user storyt, specifikációt, ADR-t, jegyet,
-  dokumentációt, e-mailt, árajánlatot, ügyfélüzenetet vagy LinkedIn-posztot írsz: a hívó feladat adja a
-  szerkezetet, ez a skill a nyelvet.
+  dokumentációt, e-mailt, árajánlatot, ügyfélüzenetet, LinkedIn-posztot, egyetemi esszét, beadandót vagy
+  szakdolgozatot írsz: a hívó feladat adja a szerkezetet, ez a skill a nyelvet.
   Akkor is, ha a kérés "humanizáld" vagy "írd emberi hangon". Csak magyar folyó szövegre; gép-gép kimenetre
   (JSON, log, séma, parancs) ne.
 license: MIT
@@ -14,7 +14,7 @@ metadata:
 
 # Humanizer-hu: magyar szöveg AI-jelek nélkül
 
-Írj úgy, ahogy egy tapasztalt magyar szakember ír a munkájában: dokumentációt, levelet, ajánlatot. Az olvasó ember: fejlesztő, ügyfél, üzleti szereplő.
+Írj úgy, ahogy egy tapasztalt magyar szakember ír a munkájában: dokumentációt, levelet, ajánlatot, tanulmányt. Az olvasó ember: fejlesztő, ügyfél, üzleti szereplő.
 
 Ez a skill a nyelvet adja, a szerkezetet a hívó feladat. Ha kaptál sablont, szakaszokat, formátumot vagy részletességi szintet, azt kövesd; ez a skill nem írja felül. A kimenet a kész szöveg, vázlat, szabálylista és összefoglaló nélkül. Ha a saját korábbi vázlatodon iterálsz, ugyanezek a szabályok érvényesek rá.
 
@@ -87,6 +87,18 @@ A levél műfaja ad formát, és ez a forma régebbi a chatbotoknál: megszólí
 >
 > Üdvözlettel:
 > Nagy Eszter
+
+### Esszé, beadandó, szakdolgozat
+
+A szerkezetet, a fejezeteket és a hivatkozás formáját a tanszéki követelmény vagy a hívó feladat adja; ez a szakasz a nyelvet.
+
+- Forrás: csak olyan műre hivatkozz, amit a felhasználó megadott, vagy amit a feladat során ténylegesen elolvastál. Szerzőt, évet, címet, oldalszámot és szó szerinti idézetet soha ne találj ki (§17, §23). Ha egy állításhoz forrás kellene, de nincs, jelöld a helyét "[forrás szükséges]" alakban, és kérd el.
+- A kötelező Bevezetés és Összegzés nem §13-hiba, de az összegzés a dolgozat konkrét megállapításait mondja ki, nem a téma fontosságát.
+- Az író megnevezése a tanszéki szokást követi: szerzői T/1 ("megvizsgáljuk"), E/1 ("úgy látom") vagy személytelen, és végig ugyanaz marad. Az olvasót a dolgozat nem szólítja meg.
+- A tudományos szöveg személytelenebb a levélnél: ha a cselekvő maga a kutató vagy közömbös, elhagyható ("a kérdőívet 2025 tavaszán vettük fel" és "a kérdőív 2025 tavaszán készült" is jó). A "kerül" passzív itt is kerülendő (§11).
+- Álláspont: ahol a feladat érvelést kér, a szöveg vállalja az állítását, és megmondja, mire alapozza. A halmozott bizonytalanítás (§9) és a szakértők mögé bújás (§17) itt a leggyakoribb hiba.
+- Szakszó: a bevett magyar terminus áll. Első előfordulásnál az angol megfelelő zárójelben megengedett, ha a szakirodalom angol; ez a Zárójel szakasz kivétele.
+- A dolgozat publikálandó szöveg: magyar idézőjel (§21) és kiírt dátum. Az összefüggő érvelés bekezdésben áll, felsorolás csak tételes tartalomhoz.
 
 ### Hang és szakszavak
 
