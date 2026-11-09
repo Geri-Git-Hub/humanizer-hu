@@ -22,10 +22,12 @@ SKILL = ROOT / "SKILL.md"
 # Leíró tételek, amiket nem lehet szó szerint keresni.
 LEIRO = re.compile(
     r"\b(ahol|helyett|alakban|váltakozása|keveredése|szerkezet|forma|mód|szórend"
-    r"|megfordítása|beékelés|névelő|tőmondat|bekezdés|szakasz|nyitás|farok)\b",
+    r"|megfordítása|beékelés|névelő|tőmondat|bekezdés|szakasz|nyitás|farok|névmás|igenév)\b",
     re.I,
 )
-FOLYTATAS = re.compile(r"^(hogy|hanem|ha|majd|de|illetve|valójában|azt|amely|ami)\b", re.I)
+# Kisbetűs kötőszó: az előző tétel folytatása ("szólj, ha"). A nagybetűs "Ha..."
+# önálló tétel ("Ha bármilyen kérdése van"), ezért ez a minta nem kis-nagybetű-független.
+FOLYTATAS = re.compile(r"^(hogy|hanem|ha|majd|de|illetve|valójában|azt|amely|ami)\b")
 
 # Egyszavas tételeknél a ragozott alak is találat: a §18 "szolgál" a szövegben
 # "szolgáló" alakban jelenik meg. Csak ezek a végződések állhatnak a tő után, és
@@ -98,6 +100,21 @@ FELKOVER_BIZTOS = (
     (re.compile(r"^\s*\*\*[^*]+"), "félkövér a sor elején"),
     (re.compile(r"\*\*[^*]{1,40}:\*\*"), "félkövér címke"),
 )
+# §27: az angol írásjel- és számírás nyomai.
+# Vessző a mondatkezdő kötőszó után, ha nem közbevetés vagy mellékmondat jön utána.
+KOTOSZO_VESSZO = re.compile(
+    r"(?:^|[.!?]\s+)(Továbbá|Ezért|Ezenkívül|Ezen kívül|Emellett|Ráadásul|Azonban|Ugyanakkor"
+    r"|Mindazonáltal|Ennek ellenére|Ennek eredményeként|Ezáltal|Tehát|Végül|Először|Másodszor"
+    r"|Összefoglalva|Röviden),(?!\s+(?:ha|hogy|mert|mivel|amikor|ami|amely|aki|ahol|amint|bár"
+    r"|noha|miután|mielőtt|mint|amíg|akár)\b)"
+)
+# Nagybetűs hónap vagy nap a mondat belsejében: kisbetűs szó vagy vessző áll előtte.
+NAGY_HONAP = re.compile(
+    r"(?<=[a-záéíóöőúüű,]\s)(?:Január|Február|Március|Április|Május|Június|Július|Augusztus"
+    r"|Szeptember|Október|November|December|Hétfő|Kedd|Szerd|Csütörtök|Péntek|Szombat|Vasárnap)\w*"
+)
+# Ezres tagolás vesszővel ("12,500"): magyarul ez tizedes tört, ezért ítéletet kér.
+EZRES_VESSZO = re.compile(r"(?<![\d,.])[1-9]\d{0,2}(?:,\d{3})+(?![\d,])")
 GONDOLATJEL = re.compile(r"(?:(?<=\s)|^)–(?=\s|$)")
 LISTA_TETEL = re.compile(r"\s*(?:[-*+]|\d+[.)])\s")
 CIMSOR_EMOJI = re.compile(r"[\U0001F300-\U0001FAFF←-⇿✀-➿✨⭐]")
@@ -177,6 +194,14 @@ def ellenoriz(ut: Path, kifejezesek: dict, sajat_skill: bool, publikalt: bool = 
             elif db % 2 == 1 and not LISTA_TETEL.match(sor):
                 talalatok.append(("biztos", i, 8, sor.strip()[:40], "magányos gondolatjel"))
 
+        if not (sajat_skill and minta == 27):
+            for m in KOTOSZO_VESSZO.finditer(sor):
+                talalatok.append(("biztos", i, 27, m.group(1) + ",", "vessző a mondatkezdő kötőszó után"))
+            for m in NAGY_HONAP.finditer(sor):
+                talalatok.append(("biztos", i, 27, m.group(0), "nagybetűs hónap vagy nap"))
+            for m in EZRES_VESSZO.finditer(sor):
+                talalatok.append(("gyanús", i, 27, m.group(0), "vesszővel tagolt ezres"))
+
         if sor.startswith("#"):
             cim = sor.lstrip("#").strip()
             if CIMSOR_EMOJI.search(cim):
@@ -255,7 +280,9 @@ def main() -> int:
     print("A gyanús találat nem hiba: emberi döntést kér. A §12 saját szövege "
           "mondja ki, hogy egy szó egyszeri előfordulása még nem gépiesség.")
     print("Amit ez a script nem lát: §6 hármas, §14 homályos kapcsolat, "
-          "§23 kitalált tény, §25 előző verzió, §26 megszólításkeveredés.")
+          "§23 kitalált tény, §25 előző verzió, §26 megszólításkeveredés, "
+          "§10 fölösleges \"fog\" és kiírt birtokos névmás, §27 vessző az \"és\" előtt "
+          "és nagybetűs nemzetiség.")
     print("A több szavas kifejezéseket szó szerint keresi, tehát azok ragozott "
           "alakját elszalasztja; egyszavas tételnél a ragozott alak is találat.")
     if not publikalt:

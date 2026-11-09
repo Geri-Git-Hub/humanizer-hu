@@ -1,12 +1,13 @@
 # Humanizer-hu
 
-Magyar írásstílus-skill agenteknek, generáláshoz. A szabályok írás közben hatnak, nem a kész szöveg utólagos tisztításakor: a hívó feladat adja a szerkezetet (user story, specifikáció, ADR, jegy, dokumentáció, ügyfélszöveg), a Humanizer-hu a nyelvet. A másik alapszabálya, hogy csak azt állítja, amit a kérés vagy a forrás tartalmaz: nevet, számot, dátumot, idézetet és hivatkozást nem talál ki, hanem elkéri, vagy egyszerűbb mondatot ír.
+Magyar írásstílus-skill agenteknek, generáláshoz. A szabályok írás közben hatnak, nem a kész szöveg utólagos tisztításakor: a hívó feladat adja a szerkezetet (user story, specifikáció, ADR, jegy, dokumentáció, e-mail, árajánlat, poszt), a Humanizer-hu a nyelvet. A másik alapszabálya, hogy csak azt állítja, amit a kérés vagy a forrás tartalmaz: nevet, számot, dátumot, idézetet és hivatkozást nem talál ki, hanem elkéri, vagy egyszerűbb mondatot ír.
 
-Az agenttel íratott magyar dokumentumon látszik, hogy gép írta: erőltetett hármasok, "kerül" passzív, felfújt jelzők, gondolatjel minden tagmondat között, tegezés és magázás váltakozva. A Humanizer-hu ezt a réteget cseréli le. 26 mintát ad hat csoportban, és egy dokumentumszintű döntéssort, ami az első mondat előtt lefut. A minták magyar példákon állnak, magyar nyelvtani háttérrel, és kettőnek angolul nincs is értelme: a tükörfordításnak és a megszólításnak.
+Az agenttel íratott magyar dokumentumon látszik, hogy gép írta: erőltetett hármasok, "kerül" passzív, felfújt jelzők, gondolatjel minden tagmondat között, tegezés és magázás váltakozva. A Humanizer-hu ezt a réteget cseréli le. 27 mintát ad hét csoportban, és egy dokumentumszintű döntéssort, ami az első mondat előtt lefut. A minták magyar példákon állnak, magyar nyelvtani háttérrel, és háromnak angolul nincs is értelme: a tükörfordításnak, a megszólításnak és az angol írásjel- és számírási szokásoknak.
 
 ## Miben más
 
 - Dokumentumszintű réteg. Hosszúság, folyó szöveg vagy felsorolás, alcím, zárójel, megszólítás és részletesség az első mondat előtt dől el, mert ezek utólag, mondatonként nem javíthatók.
+- Levél, ajánlat, poszt. Külön szabály a magyar levél formájára (megszólítás, első mondat, konkrét következő lépés, elköszönés), az árajánlat kísérőlevelére és a LinkedIn-posztra.
 - Magyar nyelvtani háttér. A "kerül" passzív, a terpeszkedő szerkezet, a pro-drop, a birtokos szórend és a magyar tipográfia saját mintát kap, a hivatkozások a [docs/nyelveszeti-forrasok.md](docs/nyelveszeti-forrasok.md) fájlban vannak.
 - Gépi ellenőrzés. A `scripts/lint-hu.py` LLM nélkül jelzi a szabálysértéseket, tehát nem az a modell nézi át a szöveget, amelyik írta. A mintalistát a `SKILL.md`-ből olvassa, és nem ír át semmit.
 - Hangillesztés. Írásmintából átveszi a mondathosszt, a szóválasztást és az írásjeleket, és a minta felülírja a skill saját tipográfiai szabályait.
@@ -35,6 +36,28 @@ Amit a Humanizer-hu szabályaival ír:
 > Az alkalmazásban megjelent a Kedvencek funkció. A gyakran használt parkolási zónákat egy érintéssel el lehet menteni, és a következő parkolást már a mentett zónából lehet indítani, keresés nélkül. A rendszer a mentett zónánál is ellenőrzi az érvényességet.
 >
 > A Kedvencek a Beállítások menüből érhető el, legfeljebb tíz zóna tárolható benne. Kérdés esetén keresse az ügyfélszolgálatot.
+
+Árajánlat kísérőlevele. A tételt, az összeget, az érvényességet és a határidőt a kérés adja.
+
+Amit a modell alapból ír:
+
+> Kedves Kovács Úr,
+>
+> remélem, ez az e-mail jó egészségben találja! Örömmel küldöm át Önnek az átfogó árajánlatunkat, amely az Ön igényeire szabott, költséghatékony és rugalmas megoldást kínál. Az ajánlat tartalmazza a szállítást, valamint a szerelést is, így Önnek nem kell semmi miatt aggódnia.
+>
+> Továbbá, fontos kiemelni, hogy az ajánlat December 15-ig érvényes. Ha bármilyen kérdése van, ne habozzon felvenni velem a kapcsolatot!
+>
+> Üdvözlettel,
+> Nagy Eszter
+
+Amit a Humanizer-hu szabályaival ír:
+
+> Kedves Kovács Úr!
+>
+> Csatolom a raktári polcrendszer árajánlatát. A végösszeg 4 860 000 Ft + ÁFA, benne a szállítás és a szerelés. Az ajánlat 2026. december 15-ig érvényes. Ha a januári szállítás megfelel, kérem, jelezze december 5-ig, hogy lefoglalhassuk a szerelőcsapatot.
+>
+> Üdvözlettel:
+> Nagy Eszter
 
 ## Telepítés
 
@@ -110,9 +133,9 @@ Teljes kör, pluginként telepítve:
 /humanizer-hu:ellenoriz FÁJL.md
 ```
 
-Ez előbb a scriptet futtatja, majd azt nézi át, amit regex nem lát: a 6. minta hármasát, a 14. homályos kapcsolatát, a 23. kitalált tényeit, a 25. előző verzióját és a 26. megszólításkeveredését.
+Ez előbb a scriptet futtatja, majd azt nézi át, amit regex nem lát: a 6. minta hármasát, a 10. fölösleges "fog"-ját és kiírt birtokos névmását, a 14. homályos kapcsolatát, a 23. kitalált tényeit, a 25. előző verzióját, a 26. megszólításkeveredését és a 27. "és" előtti vesszőjét.
 
-## A 26 minta
+## A 27 minta
 
 A minták a leggyakoribbal kezdődnek. A teljes leírás, a kerülendő kifejezésekkel és példákkal, a `SKILL.md`-ben van.
 
@@ -134,7 +157,7 @@ A minták a leggyakoribbal kezdődnek. A teljes leírás, a kerülendő kifejez�
 | 7 | Ismétlődő mondatkezdés | "A rendszer... A rendszer... A rendszer..." | Vond össze, vagy hagyd el az alanyt |
 | 8 | Gondolatjel mint kötőelem | "## Teljesítmény — mit mértünk" | Kettőspont a címben; pont, vessző, zárójel a mondatban; közbevetésre ritkán páros – |
 | 9 | Halmozott bizonytalanítás | "esetleg akár talán" | "lehet" |
-| 10 | Anglicizmusok és tükörfordítások | "Ez egy jelentős kihívás", "navigálni a kihívások között" | Magyar szerkezet, a szakszó marad angolul |
+| 10 | Anglicizmusok és tükörfordítások | "Ez egy jelentős kihívás", "a csapat számára", "el fogja küldeni" | Magyar szerkezet, a szakszó marad angolul |
 | 11 | Passzív és elrejtett cselekvő | "betöltésre kerülnek", "a mentés automatikusan történik" | Nevezd meg, ki mit csinál |
 
 ### C. Felfújás
@@ -161,7 +184,7 @@ A minták a leggyakoribbal kezdődnek. A teljes leírás, a kerülendő kifejez�
 
 | # | Minta | Ne írd | Így írd |
 | --- | --- | --- | --- |
-| 22 | Chatbot-maradvány | "Remélem, segítettem! Szólj, ha..." | Tartalommal kezdj, ténnyel zárj |
+| 22 | Chatbot-maradvány | "Remélem, segítettem! Szólj, ha...", "ne habozzon" | Tartalommal kezdj, ténnyel vagy konkrét kéréssel zárj |
 | 23 | Tudáskorlát és találgatás | "feltehetően a config.yaml-ban beállított korlát" | Mondd meg, mi ismert; a hiányzó döntés megjelölt javaslat |
 | 24 | Címsor megismételve | "## Hibakezelés" + "A hibakezelés fontos része a rendszernek." | Hagyd a címsort dolgozni |
 | 25 | Az előző verzióról írni | "a korábbi megközelítést váltja ki" | Írd le, mit csinál most |
@@ -171,6 +194,12 @@ A minták a leggyakoribbal kezdődnek. A teljes leírás, a kerülendő kifejez�
 | # | Minta | Ne írd | Így írd |
 | --- | --- | --- | --- |
 | 26 | Tegezés és magázás keveredése | "Kattints a gombra... indítsa újra a böngészőt" | Egy forma végig |
+
+### G. Helyesírás
+
+| # | Minta | Ne írd | Így írd |
+| --- | --- | --- | --- |
+| 27 | Angol írásjel- és számírási szokások | "Továbbá, a Novemberi díj 12,500 Ft" | "A novemberi díj 12 500 Ft" |
 
 ## Dokumentumszintű döntések
 
@@ -184,6 +213,7 @@ Ezek a döntések az első mondat előtt születnek, és utólag nem javítható
 | Zárójel | Csak új információ. Nincs zárójeles fordítás és nincs magyarázat az egyértelműhöz. |
 | Megszólítás | Két tengely: az olvasó megszólítása és az író megnevezése. Mindkettő egy forma végig. |
 | Részletesség | Az első mondat előtt dönts. Általánosítani szabad, kitalálni nem. |
+| Levél, ajánlat, poszt | Magyar megszólítás felkiáltójellel, az első mondat a levél oka, zárásként konkrét következő lépés. Poszt horog és emojis lista nélkül. |
 | Hang | Semleges és szakmai, váltakozó mondathosszal. Az írásminta felülír. |
 
 ## Eredet
@@ -196,11 +226,12 @@ A 12. minta szójegyzéke megfigyelésen alapul, nem korpuszon. Ez a repo élő 
 
 - [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) a mintalista forrása, a [WikiProject AI Cleanup](https://en.wikipedia.org/wiki/Wikipedia:WikiProject_AI_Cleanup) gondozza.
 - [blader/humanizer](https://github.com/blader/humanizer) az eredeti skill, amelyből ez a projekt indult.
-- [docs/nyelveszeti-forrasok.md](docs/nyelveszeti-forrasok.md) gyűjti a mintákhoz talált magyar nyelvészeti hátteret, hivatkozásokkal: kizáró ellentét (1), halmozás (6), pro-drop és topikfolytonosság (7), -hat/-het és episztemikus modalitás (9), fordításnyelv és birtokos szórend (10), terpeszkedő szerkezet (11), igenévképző és alanyazonosság (15), a címek helyesírása (20).
+- [docs/nyelveszeti-forrasok.md](docs/nyelveszeti-forrasok.md) gyűjti a mintákhoz talált magyar nyelvészeti hátteret, hivatkozásokkal: kizáró ellentét (1), halmozás (6), pro-drop és topikfolytonosság (7), -hat/-het és episztemikus modalitás (9), fordításnyelv, birtokos szórend, névutók és jövő idő (10), terpeszkedő szerkezet (11), igenévképző és alanyazonosság (15), a címek helyesírása (20), írásjelek, kisbetűs hónapnevek és számírás (27).
 - A 12. minta szójegyzéke, a dokumentumszintű döntések és a 8. minta címsoros megfigyelése megfigyelésen alapul, nem korpuszon. Magyar nyelvű LLM-szógyakorisági vizsgálatot kerestünk, de nem találtunk.
 
 ## Verziótörténet
 
+- 2.10.0 - Üzleti levél, árajánlat és poszt. Új dokumentumszintű szakasz a levél formájáról, egy kísérőlevél-példával. Új 27. minta (angol írásjel- és számírási szokások) új G csoportban, lintszabállyal a mondatkezdő kötőszó utáni vesszőre, a nagybetűs hónapra és a vesszővel tagolt ezresre. A §10 új tükörfordításokat kap ("számára", "által", "annak érdekében, hogy", "abban az esetben, ha", "legyen szó akár", fölösleges "fog", kiírt birtokos névmás), a §22 a magázó levélfordulatokat ("Ha bármilyen kérdése van", "ne habozzon"). Publikálandó szövegnek számít az ügyfélnek küldött levél és ajánlat is. Az ellenőrző kör kilenc tételes. A lint a nagybetűs "Ha..." tételt nem fűzi az előző kifejezéshez, ezért a "szólj, ha" és a "Ha bármi kérdésed van" külön találat.
 - 2.9.0 - A §8 gondolatjelszabálya követi a magyar helyesírást. A közbevetéshez eddig kötőjelet írt elő, ami más írásjel; most a zárójel vagy az átírás az első, és ha mégis gondolatjeles, akkor páros szóközös nagykötőjel, ritkán. A magányos szóközös gondolatjel tagmondatok között tilos marad, és a lint BIZTOS találatként jelzi, a címsorbeli gondolatjellel együtt.
 - 2.8.1 - A Forrás szakasz kikerült a SKILL.md-ből: a promptban nem volt szerepe, a README Források szakasza tartalmazza.
 - 2.8.0 - Négy pontosítás külső bírálatból. Publikálandó szövegben a dátum kiírt magyar alakban áll, ahogy az idézőjel is. A §19 engedi a felület elemének nevét (gomb, menüpont) félkövérrel vagy inline kóddal használati útmutatóban. A szakzsargon-kivétel a fejlesztő és a szakmai olvasóhoz kötött, nem technikai olvasónak a magyar szó jár. A lint `--published` kapcsolója publikálandó szövegben nem jelzi a görbe idézőjelet.
